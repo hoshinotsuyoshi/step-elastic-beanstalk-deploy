@@ -55,13 +55,14 @@ fi
 debug "Change back to the source dir.";
 cd $WERCKER_SOURCE_DIR
 
-AWSEB_CREDENTIAL_FILE="$HOME/.aws/aws_credential_file"
+AWSEB_CREDENTIAL_FILE="$HOME/.aws/credentials
 AWSEB_EB_CONFIG_FILE="$WERCKER_SOURCE_DIR/.elasticbeanstalk/config.yml"
 
 debug "Setting up credentials."
 cat <<EOT >> $AWSEB_CREDENTIAL_FILE
-AWS_ACCESS_KEY_ID=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_KEY
-AWS_SECRET_ACCESS_KEY=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_SECRET
+[default]
+aws_access_key_id = $WERCKER_ELASTIC_BEANSTALK_DEPLOY_KEY
+aws_secret_access_key = $WERCKER_ELASTIC_BEANSTALK_DEPLOY_SECRET
 EOT
 
 debug "Setting up eb config..."
