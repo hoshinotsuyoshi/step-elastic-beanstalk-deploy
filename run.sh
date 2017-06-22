@@ -64,6 +64,22 @@ AWSAccessKeyId=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_KEY
 AWSSecretKey=$WERCKER_ELASTIC_BEANSTALK_DEPLOY_SECRET
 EOT
 
+debug "Setting up eb config..."
+
+cat <<EOF > $AWSEB_EB_CONFIG_FILE
+branch-defaults:
+  default:
+    environment: $WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME
+  $WERCKER_GIT_BRANCH:
+    environment: $WERCKER_ELASTIC_BEANSTALK_DEPLOY_ENV_NAME
+global:
+  application_name: $WERCKER_ELASTIC_BEANSTALK_DEPLOY_APP_NAME
+  default_platform: 64bit Amazon Linux 2014.03 v1.0.0 running Ruby 2.1 (Puma)
+  default_region: $WERCKER_ELASTIC_BEANSTALK_DEPLOY_REGION
+  profile: null
+  sc: git
+EOF
+
 if [ -n "$WERCKER_ELASTIC_BEANSTALK_DEPLOY_DEBUG" ]
 then
     debug "Dumping config file."
